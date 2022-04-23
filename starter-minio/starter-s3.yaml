@@ -1,0 +1,7 @@
+# This file contains Kubernetes YAML files for the most important prow
+# components. Don't edit resources in this file. Instead, pull them out into
+# their own files.
+
+# https://github.com/kubernetes/test-infra/blob/master/prow/getting_started_deploy.md
+
+# https://raw.githubusercontent.com/kubernetes/test-infra/master/config/prow/cluster/starter/starter-s3.yaml

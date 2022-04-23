@@ -1,0 +1,106 @@
+plugins:
+  jihoon-seo:
+    plugins:
+    - approve
+    - assign
+    - blunderbuss
+    - branchcleaner
+    - cat
+    - config-updater
+    - dog
+    - help
+    - heart
+    - hold
+    - label
+    - lgtm
+    - merge-method-comment
+    - mergecommitblocker
+    - override
+    - retitle
+    - size
+    - skip
+    - trigger
+    - verify-owners
+    - wip
+    - yuks
+
+approve:
+  - # CommandHelpLink is the link to the help page which shows the available commands for each repo.
+    # The default value is "https://go.k8s.io/bot-commands". The command help page is served by Deck
+    # and available under https:///command-help, e.g. "https://prow.k8s.io/command-help"
+    commandHelpLink: "http://prow-jhseo.mooo.com/command-help"
+
+    # IgnoreReviewState causes the approve plugin to ignore the GitHub review state. Otherwise:
+    # * an APPROVE github review is equivalent to leaving an "/approve" message.
+    # * A REQUEST_CHANGES github review is equivalent to leaving an /approve cancel" message.
+    ignore_review_state: false
+
+    # Repos is either of the form org/repos or just org.
+    repos:
+      - jihoon-seo
+
+    # RequireSelfApproval requires PR authors to explicitly approve their PRs.
+    # Otherwise the plugin assumes the author of the PR approves the changes in the PR.
+    require_self_approval: true
+
+branch_cleaner:
+  # PreservedBranches is a map of org/repo branches
+  # format:
+  # ```
+  # preserved_branches:
+  # : ["master", "release"]
+  # : ["master", "release"]
+  # ```
+  # branches in this allow map would be exempt from branch gc
+  # even if the branches are already merged into the target branch
+  preserved_branches:
+      jihoon-seo:
+        - master
+        - main
+
+config_updater:
+  maps:
+    # Update the config configmap whenever config.yaml changes
+    prow-plugins-config/config.yaml:
+      name: config
+    # Update the plugins configmap whenever plugins.yaml changes
+    prow-plugins-config/plugins.yaml:
+      name: plugins
+    # Unfortunately, 'label_sync' only works for GitHub orgs, not for user accounts, so I disable this entry here.
+    # label_sync/labels.yaml:
+    #   name: label-config
+
+lgtm:
+  - # Repos is either of the form org/repos or just org.
+    repos:
+      - jihoon-seo
+
+    # ReviewActsAsLgtm indicates that a GitHub review of "approve" or "request changes"
+    # acts as adding or removing the lgtm label
+    review_acts_as_lgtm: true
+
+    # StoreTreeHash indicates if tree_hash should be stored inside a comment to detect
+    # squashed commits before removing lgtm labels
+    store_tree_hash: true
+
+    # WARNING: This disables the security mechanism that prevents a malicious member (or
+    # compromised GitHub account) from merging arbitrary code. Use with caution.
+
+    # StickyLgtmTeam specifies the GitHub team whose members are trusted with sticky LGTM,
+    # which eliminates the need to re-lgtm minor fixes/updates.
+    # trusted_team_for_sticky_lgtm: team1
+
+override:
+  allow_top_level_owners: true
+
+retitle:
+  # AllowClosedIssues allows retitling closed/merged issues and PRs.
+  allow_closed_issues: true
+
+size:
+  l: 100
+  m: 30
+  s: 10
+  xl: 500
+  xxl: 1000
+
